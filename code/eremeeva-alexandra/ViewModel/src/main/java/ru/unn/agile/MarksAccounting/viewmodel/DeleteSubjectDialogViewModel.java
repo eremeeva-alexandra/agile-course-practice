@@ -6,7 +6,12 @@ import javax.swing.*;
 import java.text.ParseException;
 
 public class DeleteSubjectDialogViewModel extends DeletingDialogViewModel {
-    public DeleteSubjectDialogViewModel(final TableOfMarks currentTableOfMarks) {
+    public DeleteSubjectDialogViewModel(final TableOfMarks currentTableOfMarks,
+                                        final ILogger dialogLogger) {
+        setLogger(dialogLogger);
+        if (dialogLogger == null) {
+            throw new IllegalArgumentException("Logger can't be null");
+        }
         setDialogDateTextBoxVisible(false);
         setDialogGroupBoxVisible(true);
         setDialogStudentBoxVisible(false);
@@ -31,7 +36,25 @@ public class DeleteSubjectDialogViewModel extends DeletingDialogViewModel {
 
     @Override
     protected void deleteObjectFromTableOfMarks() throws ParseException {
+        logTriedChangingTable();
         getTableOfMarks().deleteAcademicSubject(new Group(getDialogGroup()),
                 getDialogSubject());
+        logCompletedChangingTable();
+    }
+
+    @Override
+    protected void logTriedChangingTable() {
+        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to delete subject.");
+    }
+
+    @Override
+    protected void logCompletedChangingTable() {
+        getLogger().log("Deleting subject " + getDialogSubject() + " from group "
+                + getDialogGroup() + LogMessage.COMPLETED_CHANGING.getMessage());
+    }
+
+    @Override
+    public void logCancelledChangingTable() {
+        getLogger().log("Deleting subject" + LogMessage.CANCELLED_CHANGING.getMessage());
     }
 }

@@ -7,10 +7,10 @@ import static org.junit.Assert.*;
 import ru.unn.agile.MarksAccounting.model.Group;
 import ru.unn.agile.MarksAccounting.model.GroupAlreadyExistsException;
 import ru.unn.agile.MarksAccounting.model.TableOfMarks;
-
 import java.text.ParseException;
+import java.util.List;
 
-public class AddGroupDialogViewModelTests {
+public class AddGroupDialogViewModelTests extends DialogViewModelWithLoggerTests {
     private DialogViewModel addGroupViewModel;
     private TableOfMarks tableOfMarks;
 
@@ -18,6 +18,8 @@ public class AddGroupDialogViewModelTests {
     public void setUp() {
         initModel();
         initTable();
+        addGroupViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        setDialogViewModel(addGroupViewModel);
     }
 
     @After
@@ -26,9 +28,13 @@ public class AddGroupDialogViewModelTests {
         tableOfMarks = null;
     }
 
-    private void initModel() {
+    protected void initModel() {
         TableOfMarks tempTableOfMarks = TestDataInitializer.initTableOfMarks();
-        addGroupViewModel = new AddGroupDialogViewModel(tempTableOfMarks);
+        addGroupViewModel = new AddGroupDialogViewModel(tempTableOfMarks, new TestLogger());
+    }
+
+    protected void setAddGroupViewModel(final AddGroupDialogViewModel addGroupViewModel) {
+        this.addGroupViewModel = addGroupViewModel;
     }
 
     private void initTable() {
@@ -94,5 +100,36 @@ public class AddGroupDialogViewModelTests {
         } catch (ParseException e) {
             fail();
         }
+    }
+
+    protected void createViewModelWithNullLogger() {
+        new AddGroupDialogViewModel(tableOfMarks, null);
+    }
+
+    @Test
+    public void canLogTableChanging() {
+        try {
+            addGroupViewModel.setDialogInputTextBox("111");
+            addGroupViewModel.changeTableOfMarks();
+
+            List<String> messagesInLog = addGroupViewModel.getLog();
+
+            assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
+                    ".*" + "Adding group 111" + LogMessage.COMPLETED_CHANGING.getMessage()));
+            assertTrue(messagesInLog.get(messagesInLog.size() -  2).matches(
+                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to add group."));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void canLogCancellingChanges() {
+        addGroupViewModel.logCancelledChangingTable();
+
+        List<String> messagesInLog = addGroupViewModel.getLog();
+
+        assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
+                ".*" + "Adding group" + LogMessage.CANCELLED_CHANGING.getMessage()));
     }
 }

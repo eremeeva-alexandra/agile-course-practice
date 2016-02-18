@@ -9,8 +9,9 @@ import ru.unn.agile.MarksAccounting.model.*;
 import javax.swing.*;
 import java.text.ParseException;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-public class DeleteMarkDialogViewModelTests {
+public class DeleteMarkDialogViewModelTests extends DialogViewModelWithLoggerTests {
 
     private DialogViewModel deleteMarkViewModel;
     private TableOfMarks tableOfMarks;
@@ -19,6 +20,8 @@ public class DeleteMarkDialogViewModelTests {
     public void setUp() {
         initModel();
         initTable();
+        deleteMarkViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        setDialogViewModel(deleteMarkViewModel);
     }
 
     @After
@@ -27,13 +30,17 @@ public class DeleteMarkDialogViewModelTests {
         tableOfMarks = null;
     }
 
-    private void initModel() {
+    protected void initModel() {
         TableOfMarks tempTableOfMarks = TestDataInitializer.initTableOfMarks();
-        deleteMarkViewModel = new DeleteMarkDialogViewModel(tempTableOfMarks);
+        deleteMarkViewModel = new DeleteMarkDialogViewModel(tempTableOfMarks, new TestLogger());
     }
 
     private void initTable() {
         tableOfMarks = TestDataInitializer.initTableOfMarks();
+    }
+
+    protected void setDeleteMarkViewModel(final DialogViewModel deleteMarkViewModel) {
+        this.deleteMarkViewModel = deleteMarkViewModel;
     }
 
     @Test
@@ -166,5 +173,37 @@ public class DeleteMarkDialogViewModelTests {
         deleteMarkViewModel.setDialogStudent("Sidorov");
         deleteMarkViewModel.setDialogSubject("Maths");
         deleteMarkViewModel.setDialogDate("10-5-2015");
+    }
+
+    protected void createViewModelWithNullLogger() {
+        new DeleteMarkDialogViewModel(tableOfMarks, null);
+    }
+
+    @Test
+    public void canLogTableChanging() {
+        try {
+            setFieldsForMarkDeleting();
+            deleteMarkViewModel.changeTableOfMarks();
+
+            List<String> messagesInLog = deleteMarkViewModel.getLog();
+
+            assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
+                    + "Deleting mark on date 10-5-2015 from subject Maths and student Sidorov "
+                    + "of group 1" + LogMessage.COMPLETED_CHANGING.getMessage()));
+            assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
+                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to delete mark."));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void canLogCancellingChanges() {
+        deleteMarkViewModel.logCancelledChangingTable();
+
+        List<String> messagesInLog = deleteMarkViewModel.getLog();
+
+        assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
+                ".*" + "Deleting mark" + LogMessage.CANCELLED_CHANGING.getMessage()));
     }
 }

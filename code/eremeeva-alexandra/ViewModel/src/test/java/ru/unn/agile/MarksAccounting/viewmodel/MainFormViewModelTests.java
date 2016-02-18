@@ -10,6 +10,7 @@ import ru.unn.agile.MarksAccounting.model.TableOfMarks;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import java.util.List;
 
 public class MainFormViewModelTests {
     private MainFormViewModel mainFormViewModel;
@@ -25,9 +26,17 @@ public class MainFormViewModelTests {
     }
 
     private void initModel() {
-        mainFormViewModel = new MainFormViewModel();
+        mainFormViewModel = new MainFormViewModel(new TestLogger());
         TableOfMarks tempTableOfMarks = TestDataInitializer.initTableOfMarks();
         mainFormViewModel.setTableOfMarks(tempTableOfMarks);
+    }
+
+    protected void setMainFormViewModel(final MainFormViewModel mainFormViewModel) {
+        this.mainFormViewModel = mainFormViewModel;
+    }
+
+    protected MainFormViewModel getMainFormViewModel() {
+        return this.mainFormViewModel;
     }
 
     @Test
@@ -186,5 +195,135 @@ public class MainFormViewModelTests {
             }
         }
         return true;
+    }
+
+    @Test
+    public void canCreateViewModelWithLogger() {
+        TestLogger logger = new TestLogger();
+        MainFormViewModel viewModelWithLogger = new MainFormViewModel(logger);
+
+        assertNotNull(viewModelWithLogger);
+    }
+
+    @Test
+    public void viewModelConstructorThrowsExceptionWithNullLogger() {
+        try {
+            new MainFormViewModel(null);
+            fail();
+        } catch (IllegalArgumentException exception) {
+            assertEquals("Logger can't be null", exception.getMessage());
+        } catch (Exception exception) {
+            fail();
+        }
+    }
+
+    @Test
+    public void logIsEmptyAtTheBeginning() {
+        List<String> log = mainFormViewModel.getLog();
+
+        assertEquals(0, log.size());
+    }
+
+    @Test
+    public void canPutSeveralLogMessages() {
+        mainFormViewModel.logActionChanging("add group");
+        mainFormViewModel.setGroupInCurrentTable("1");
+        mainFormViewModel.logActionChanging("add student");
+
+        assertEquals(3, mainFormViewModel.getLog().size());
+    }
+
+    @Test
+    public void canLogGroupChanging() {
+        mainFormViewModel.setGroupInCurrentTable("1");
+
+        List<String> messagesInLog = mainFormViewModel.getLog();
+
+        assertEquals(1, messagesInLog.size());
+        assertTrue(messagesInLog.get(0).matches(".*"
+                + LogMessage.GROUP_CHANGED.getMessage() + "1."));
+    }
+
+    @Test
+    public void canNotLogWhenGroupWasNotChanged() {
+        mainFormViewModel.setGroupInCurrentTable(null);
+        mainFormViewModel.setGroupInCurrentTable("4");
+        mainFormViewModel.setGroupInCurrentTable("4");
+
+        List<String> messagesInLog = mainFormViewModel.getLog();
+
+        assertEquals(1, messagesInLog.size());
+        assertTrue(messagesInLog.get(0).matches(".*"
+                + LogMessage.GROUP_CHANGED.getMessage() + "4."));
+    }
+
+    @Test
+    public void canLogSubjectChanging() {
+        mainFormViewModel.setSubjectInCurrentTable("History");
+
+        List<String> messagesInLog = mainFormViewModel.getLog();
+
+        assertEquals(1, messagesInLog.size());
+        assertTrue(messagesInLog.get(0).matches(".*"
+                + LogMessage.SUBJECT_CHANGED.getMessage() + "History."));
+    }
+
+    @Test
+    public void canNotLogWhenSubjectWasNotChanged() {
+        mainFormViewModel.setSubjectInCurrentTable(null);
+        mainFormViewModel.setSubjectInCurrentTable("Art");
+        mainFormViewModel.setSubjectInCurrentTable("Art");
+
+        List<String> messagesInLog = mainFormViewModel.getLog();
+
+        assertEquals(1, messagesInLog.size());
+        assertTrue(messagesInLog.get(0).matches(".*"
+                + LogMessage.SUBJECT_CHANGED.getMessage() + "Art."));
+    }
+
+    @Test
+    public void canLogActionChanging() {
+        mainFormViewModel.logActionChanging("Add group");
+
+        List<String> messagesInLog = mainFormViewModel.getLog();
+
+        assertEquals(1, messagesInLog.size());
+        assertTrue(messagesInLog.get(0).matches(".*"
+                + LogMessage.ACTION_CHANGED.getMessage() + "add group."));
+    }
+
+    @Test
+    public void canLogDialog() {
+        mainFormViewModel.logDialogActivating();
+        mainFormViewModel.getLogger().log("Changing cancelled");
+        mainFormViewModel.logDialogDeactivating();
+
+        List<String> messagesInLog = mainFormViewModel.getLog();
+
+        assertEquals(3, messagesInLog.size());
+        assertTrue(messagesInLog.get(0).matches(".*" + LogMessage.DIALOG_ACTIVATED.getMessage()));
+        assertTrue(messagesInLog.get(2).matches(".*" + LogMessage.DIALOG_DEACTIVATED.getMessage()));
+    }
+
+    @Test
+    public void canLogSavingTable() {
+        mainFormViewModel.logTableSaving("./TestTable.txt");
+
+        List<String> messagesInLog = mainFormViewModel.getLog();
+
+        assertEquals(1, messagesInLog.size());
+        assertTrue(messagesInLog.get(0).matches(".*"
+                + LogMessage.TABLE_SAVED.getMessage() + "./TestTable.txt."));
+    }
+
+    @Test
+    public void canLogOpeningTable() {
+        mainFormViewModel.logTableOpening("./TestTable.txt");
+
+        List<String> messagesInLog = mainFormViewModel.getLog();
+
+        assertEquals(1, messagesInLog.size());
+        assertTrue(messagesInLog.get(0).matches(".*"
+                + LogMessage.TABLE_OPENED.getMessage() + "./TestTable.txt."));
     }
 }

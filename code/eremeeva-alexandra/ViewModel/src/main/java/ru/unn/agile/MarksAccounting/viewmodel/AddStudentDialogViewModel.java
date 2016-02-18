@@ -5,7 +5,12 @@ import javax.swing.*;
 import java.text.ParseException;
 
 public class AddStudentDialogViewModel extends AddingDialogViewModel {
-    public AddStudentDialogViewModel(final TableOfMarks currentTableOfMarks) {
+    public AddStudentDialogViewModel(final TableOfMarks currentTableOfMarks,
+                                     final ILogger dialogLogger) {
+        setLogger(dialogLogger);
+        if (dialogLogger == null) {
+            throw new IllegalArgumentException("Logger can't be null");
+        }
         setDialogDateTextBoxVisible(false);
         setDialogGroupBoxVisible(true);
         setDialogStudentBoxVisible(false);
@@ -23,7 +28,25 @@ public class AddStudentDialogViewModel extends AddingDialogViewModel {
 
     @Override
     protected void addObjectToTableOfMarks() throws ParseException {
+        logTriedChangingTable();
         getTableOfMarks().addStudent(new Group(getDialogGroup()),
                 new Student(getDialogInputTextBox()));
+        logCompletedChangingTable();
+    }
+
+    @Override
+    protected void logTriedChangingTable() {
+        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to add student.");
+    }
+
+    @Override
+    protected void logCompletedChangingTable() {
+        getLogger().log("Adding student " + getDialogInputTextBox()
+                + " to group " + getDialogGroup() + LogMessage.COMPLETED_CHANGING.getMessage());
+    }
+
+    @Override
+    public void logCancelledChangingTable() {
+        getLogger().log("Adding student" + LogMessage.CANCELLED_CHANGING.getMessage());
     }
 }

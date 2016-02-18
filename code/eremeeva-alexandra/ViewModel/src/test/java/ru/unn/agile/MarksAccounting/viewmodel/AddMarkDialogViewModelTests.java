@@ -7,10 +7,11 @@ import ru.unn.agile.MarksAccounting.model.*;
 import javax.swing.*;
 import java.text.ParseException;
 import java.util.GregorianCalendar;
+import java.util.List;
 import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
 
-public class AddMarkDialogViewModelTests {
+public class AddMarkDialogViewModelTests extends DialogViewModelWithLoggerTests {
     private DialogViewModel addMarkViewModel;
     private TableOfMarks tableOfMarks;
 
@@ -18,6 +19,8 @@ public class AddMarkDialogViewModelTests {
     public void setUp() {
         initModel();
         initTable();
+        addMarkViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        setDialogViewModel(addMarkViewModel);
     }
 
     @After
@@ -26,13 +29,17 @@ public class AddMarkDialogViewModelTests {
         tableOfMarks = null;
     }
 
-    private void initModel() {
+    protected void initModel() {
         TableOfMarks tempTableOfMarks = TestDataInitializer.initTableOfMarks();
-        addMarkViewModel = new AddMarkDialogViewModel(tempTableOfMarks);
+        addMarkViewModel = new AddMarkDialogViewModel(tempTableOfMarks, new TestLogger());
     }
 
     private void initTable() {
         tableOfMarks = TestDataInitializer.initTableOfMarks();
+    }
+
+    protected void setAddMarkViewModel(final DialogViewModel addMarkViewModel) {
+        this.addMarkViewModel = addMarkViewModel;
     }
 
     @Test
@@ -199,5 +206,41 @@ public class AddMarkDialogViewModelTests {
         } catch (ParseException e) {
             fail();
         }
+    }
+
+    protected void createViewModelWithNullLogger() {
+        new AddMarkDialogViewModel(tableOfMarks, null);
+    }
+
+    @Test
+    public void canLogTableChanging() {
+        try {
+            addMarkViewModel.setDialogGroup("1");
+            addMarkViewModel.setDialogStudent("Sidorov");
+            addMarkViewModel.setDialogSubject("Maths");
+            addMarkViewModel.setDialogDate("10-03-2016");
+            addMarkViewModel.setDialogInputTextBox("4");
+            addMarkViewModel.changeTableOfMarks();
+
+            List<String> messagesInLog = addMarkViewModel.getLog();
+
+            assertTrue(messagesInLog.get(messagesInLog.size() -  2).matches(
+                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to add mark."));
+            assertTrue(messagesInLog.get(messagesInLog.size() - 1).matches(
+                    ".*" + "Adding mark 4 on date 10-03-2016 and subject Maths to student Sidorov"
+                            + " of group 1" + LogMessage.COMPLETED_CHANGING.getMessage()));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void canLogCancellingChanges() {
+        addMarkViewModel.logCancelledChangingTable();
+
+        List<String> messagesInLog = addMarkViewModel.getLog();
+
+        assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
+                ".*" + "Adding mark" + LogMessage.CANCELLED_CHANGING.getMessage()));
     }
 }

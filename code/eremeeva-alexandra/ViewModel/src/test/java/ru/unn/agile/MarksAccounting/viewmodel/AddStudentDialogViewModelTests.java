@@ -7,8 +7,9 @@ import org.junit.Test;
 import ru.unn.agile.MarksAccounting.model.*;
 import javax.swing.*;
 import java.text.ParseException;
+import java.util.List;
 
-public class AddStudentDialogViewModelTests {
+public class AddStudentDialogViewModelTests extends DialogViewModelWithLoggerTests {
     private DialogViewModel addStudentViewModel;
     private TableOfMarks tableOfMarks;
 
@@ -16,6 +17,8 @@ public class AddStudentDialogViewModelTests {
     public void setUp() {
         initModel();
         initTable();
+        addStudentViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        setDialogViewModel(addStudentViewModel);
     }
 
     @After
@@ -24,13 +27,17 @@ public class AddStudentDialogViewModelTests {
         tableOfMarks = null;
     }
 
-    private void initModel() {
+    protected void initModel() {
         TableOfMarks tempTableOfMarks = TestDataInitializer.initTableOfMarks();
-        addStudentViewModel = new AddStudentDialogViewModel(tempTableOfMarks);
+        addStudentViewModel = new AddStudentDialogViewModel(tempTableOfMarks, new TestLogger());
     }
 
     private void initTable() {
         tableOfMarks = TestDataInitializer.initTableOfMarks();
+    }
+
+    protected void setAddStudentViewModel(final AddStudentDialogViewModel addStudentViewModel) {
+        this.addStudentViewModel = addStudentViewModel;
     }
 
     @Test
@@ -112,5 +119,38 @@ public class AddStudentDialogViewModelTests {
         } catch (ParseException e) {
             fail();
         }
+    }
+
+    protected void createViewModelWithNullLogger() {
+        new AddStudentDialogViewModel(tableOfMarks, null);
+    }
+
+    @Test
+    public void canLogTableChanging() {
+        try {
+            addStudentViewModel.setDialogGroup("2");
+            addStudentViewModel.setDialogInputTextBox("Sidorov");
+            addStudentViewModel.changeTableOfMarks();
+
+            List<String> messagesInLog = addStudentViewModel.getLog();
+
+            assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
+                    + "Adding student Sidorov to group 2"
+                    + LogMessage.COMPLETED_CHANGING.getMessage()));
+            assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
+                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to add student."));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void canLogCancellingChanges() {
+        addStudentViewModel.logCancelledChangingTable();
+
+        List<String> messagesInLog = addStudentViewModel.getLog();
+
+        assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
+                ".*" + "Adding student" + LogMessage.CANCELLED_CHANGING.getMessage()));
     }
 }

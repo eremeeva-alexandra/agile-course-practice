@@ -5,7 +5,12 @@ import javax.swing.*;
 import java.text.ParseException;
 
 public class AddMarkDialogViewModel extends AddingDialogViewModel {
-    public AddMarkDialogViewModel(final TableOfMarks currentTableOfMarks) {
+    public AddMarkDialogViewModel(final TableOfMarks currentTableOfMarks,
+                                  final ILogger dialogLogger) {
+        setLogger(dialogLogger);
+        if (dialogLogger == null) {
+            throw new IllegalArgumentException("Logger can't be null");
+        }
         setDialogDateTextBoxVisible(true);
         setDialogGroupBoxVisible(true);
         setDialogStudentBoxVisible(true);
@@ -35,8 +40,27 @@ public class AddMarkDialogViewModel extends AddingDialogViewModel {
 
     @Override
     protected void addObjectToTableOfMarks() throws ParseException {
+        logTriedChangingTable();
         getTableOfMarks().addNewMark(new Mark(Integer.parseInt(getDialogInputTextBox()),
                         getDialogSubject(), DateParser.parseDate(getDialogDate())),
                 new Student(getDialogStudent()), new Group(getDialogGroup()));
+        logCompletedChangingTable();
+    }
+
+    @Override
+    protected void logTriedChangingTable() {
+        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to add mark.");
+    }
+
+    @Override
+    protected void logCompletedChangingTable() {
+        getLogger().log("Adding mark " + getDialogInputTextBox() + " on date " + getDialogDate()
+                + " and subject " + getDialogSubject() + " to student " + getDialogStudent()
+                + " of group " + getDialogGroup() + LogMessage.COMPLETED_CHANGING.getMessage());
+    }
+
+    @Override
+    public void logCancelledChangingTable() {
+        getLogger().log("Adding mark" + LogMessage.CANCELLED_CHANGING.getMessage());
     }
 }

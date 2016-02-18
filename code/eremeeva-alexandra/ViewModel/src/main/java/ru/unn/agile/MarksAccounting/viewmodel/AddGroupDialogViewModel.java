@@ -5,7 +5,12 @@ import ru.unn.agile.MarksAccounting.model.TableOfMarks;
 import java.text.ParseException;
 
 public class AddGroupDialogViewModel extends AddingDialogViewModel {
-    public AddGroupDialogViewModel(final TableOfMarks currentTableOfMarks) {
+    public AddGroupDialogViewModel(final TableOfMarks currentTableOfMarks,
+                                   final ILogger dialogLogger) {
+        setLogger(dialogLogger);
+        if (dialogLogger == null) {
+            throw new IllegalArgumentException("Logger can't be null");
+        }
         setDialogDateTextBoxVisible(false);
         setDialogGroupBoxVisible(false);
         setDialogStudentBoxVisible(false);
@@ -18,6 +23,24 @@ public class AddGroupDialogViewModel extends AddingDialogViewModel {
 
     @Override
     protected void addObjectToTableOfMarks() throws ParseException {
+        logTriedChangingTable();
         getTableOfMarks().addGroup(new Group(getDialogInputTextBox()));
+        logCompletedChangingTable();
+    }
+
+    @Override
+    protected void logTriedChangingTable() {
+        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to add group.");
+    }
+
+    @Override
+    protected void logCompletedChangingTable() {
+        getLogger().log("Adding group " + getDialogInputTextBox()
+                + LogMessage.COMPLETED_CHANGING.getMessage());
+    }
+
+    @Override
+    public void logCancelledChangingTable() {
+        getLogger().log("Adding group" + LogMessage.CANCELLED_CHANGING.getMessage());
     }
 }

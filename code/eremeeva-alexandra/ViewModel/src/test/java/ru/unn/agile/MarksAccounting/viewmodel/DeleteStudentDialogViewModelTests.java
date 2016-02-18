@@ -8,8 +8,9 @@ import org.junit.Test;
 import ru.unn.agile.MarksAccounting.model.*;
 import javax.swing.*;
 import java.text.ParseException;
+import java.util.List;
 
-public class DeleteStudentDialogViewModelTests {
+public class DeleteStudentDialogViewModelTests extends DialogViewModelWithLoggerTests {
     private DialogViewModel deleteStudentViewModel;
     private TableOfMarks tableOfMarks;
 
@@ -17,6 +18,8 @@ public class DeleteStudentDialogViewModelTests {
     public void setUp() {
         initModel();
         initTable();
+        deleteStudentViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        setDialogViewModel(deleteStudentViewModel);
     }
 
     @After
@@ -25,13 +28,18 @@ public class DeleteStudentDialogViewModelTests {
         tableOfMarks = null;
     }
 
-    private void initModel() {
+    protected void initModel() {
         TableOfMarks tempTableOfMarks = TestDataInitializer.initTableOfMarks();
-        deleteStudentViewModel = new DeleteStudentDialogViewModel(tempTableOfMarks);
+        deleteStudentViewModel = new DeleteStudentDialogViewModel(tempTableOfMarks,
+                new TestLogger());
     }
 
     private void initTable() {
         tableOfMarks = TestDataInitializer.initTableOfMarks();
+    }
+
+    protected void setDeleteStudentViewModel(final DialogViewModel deleteStudentViewModel) {
+        this.deleteStudentViewModel = deleteStudentViewModel;
     }
 
     @Test
@@ -106,5 +114,38 @@ public class DeleteStudentDialogViewModelTests {
         } catch (ParseException e) {
             fail();
         }
+    }
+
+    protected void createViewModelWithNullLogger() {
+        new DeleteStudentDialogViewModel(tableOfMarks, null);
+    }
+
+    @Test
+    public void canLogTableChanging() {
+        try {
+            deleteStudentViewModel.setDialogGroup("3");
+            deleteStudentViewModel.setDialogStudent("Ivanov");
+            deleteStudentViewModel.changeTableOfMarks();
+
+            List<String> messagesInLog = deleteStudentViewModel.getLog();
+
+            assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
+                    + "Deleting student Ivanov of group 3"
+                    + LogMessage.COMPLETED_CHANGING.getMessage()));
+            assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
+                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to delete student."));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void canLogCancellingChanges() {
+        deleteStudentViewModel.logCancelledChangingTable();
+
+        List<String> messagesInLog = deleteStudentViewModel.getLog();
+
+        assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
+                ".*" + "Deleting student" + LogMessage.CANCELLED_CHANGING.getMessage()));
     }
 }

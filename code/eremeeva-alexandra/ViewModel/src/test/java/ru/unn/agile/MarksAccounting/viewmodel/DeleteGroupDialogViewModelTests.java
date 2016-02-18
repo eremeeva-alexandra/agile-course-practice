@@ -10,8 +10,9 @@ import ru.unn.agile.MarksAccounting.model.GroupDoesNotExistException;
 import ru.unn.agile.MarksAccounting.model.TableOfMarks;
 import javax.swing.*;
 import java.text.ParseException;
+import java.util.List;
 
-public class DeleteGroupDialogViewModelTests {
+public class DeleteGroupDialogViewModelTests extends DialogViewModelWithLoggerTests {
     private DialogViewModel deleteGroupViewModel;
     private TableOfMarks tableOfMarks;
 
@@ -19,6 +20,8 @@ public class DeleteGroupDialogViewModelTests {
     public void setUp() {
         initModel();
         initTable();
+        deleteGroupViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        setDialogViewModel(deleteGroupViewModel);
     }
 
     @After
@@ -27,13 +30,17 @@ public class DeleteGroupDialogViewModelTests {
         tableOfMarks = null;
     }
 
-    private void initModel() {
+    protected void initModel() {
         TableOfMarks tempTableOfMarks = TestDataInitializer.initTableOfMarks();
-        deleteGroupViewModel = new DeleteGroupDialogViewModel(tempTableOfMarks);
+        deleteGroupViewModel = new DeleteGroupDialogViewModel(tempTableOfMarks, new TestLogger());
     }
 
     private void initTable() {
         tableOfMarks = TestDataInitializer.initTableOfMarks();
+    }
+
+    protected void setDeleteGroupViewModel(final DialogViewModel deleteGroupViewModel) {
+        this.deleteGroupViewModel = deleteGroupViewModel;
     }
 
     @Test
@@ -80,5 +87,36 @@ public class DeleteGroupDialogViewModelTests {
         } catch (ParseException e) {
             fail();
         }
+    }
+
+    protected void createViewModelWithNullLogger() {
+        new DeleteGroupDialogViewModel(tableOfMarks, null);
+    }
+
+    @Test
+    public void canLogTableChanging() {
+        try {
+            deleteGroupViewModel.setDialogGroup("1");
+            deleteGroupViewModel.changeTableOfMarks();
+
+            List<String> messagesInLog = deleteGroupViewModel.getLog();
+
+            assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
+                    + "Deleting group 1" + LogMessage.COMPLETED_CHANGING.getMessage()));
+            assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
+                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to delete group."));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void canLogCancellingChanges() {
+        deleteGroupViewModel.logCancelledChangingTable();
+
+        List<String> messagesInLog = deleteGroupViewModel.getLog();
+
+        assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
+                ".*" + "Deleting group" + LogMessage.CANCELLED_CHANGING.getMessage()));
     }
 }

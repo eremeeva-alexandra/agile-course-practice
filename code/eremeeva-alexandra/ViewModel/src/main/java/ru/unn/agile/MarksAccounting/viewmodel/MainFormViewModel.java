@@ -1,10 +1,13 @@
 package ru.unn.agile.MarksAccounting.viewmodel;
 
 import ru.unn.agile.MarksAccounting.model.*;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
 
 public class MainFormViewModel {
     public static final int ADD_MARK_POSITION = 3;
@@ -12,8 +15,13 @@ public class MainFormViewModel {
     private String subjectInCurrentTable;
     private TableOfMarks tableOfMarks;
     private DefaultTableModel tableModel;
+    private final ILogger logger;
 
-    public MainFormViewModel() {
+    public MainFormViewModel(final ILogger mainLogger) {
+        logger = mainLogger;
+        if (logger == null) {
+            throw new IllegalArgumentException("Logger can't be null");
+        }
         groupInCurrentTable = "";
         subjectInCurrentTable = "";
         tableOfMarks = new TableOfMarks();
@@ -52,7 +60,7 @@ public class MainFormViewModel {
     public ComboBoxModel<String> getGroupComboBoxModel() {
         String[] groupNumbers = tableOfMarks.getGroupsAsArrayOfStrings();
         if (groupNumbers.length != 0) {
-            groupInCurrentTable = groupNumbers[0];
+            setGroupInCurrentTable(groupNumbers[0]);
         }
         return new JComboBox<String>(groupNumbers).getModel();
     }
@@ -62,7 +70,7 @@ public class MainFormViewModel {
             String[] academicSubjects =
                     tableOfMarks.getAcademicSubjectsAsArray(new Group(groupInCurrentTable));
             if (academicSubjects.length != 0) {
-                 subjectInCurrentTable = academicSubjects[0];
+                 setSubjectInCurrentTable(academicSubjects[0]);
             }
             return new JComboBox<String>(academicSubjects).getModel();
         }
@@ -73,6 +81,10 @@ public class MainFormViewModel {
         return tableOfMarks;
     }
 
+    public List<String> getLog() {
+        return logger.getLog(WindowType.MAIN);
+    }
+
     public void setTableOfMarks(final TableOfMarks tableOfMarks) {
         this.tableOfMarks = tableOfMarks;
     }
@@ -80,16 +92,18 @@ public class MainFormViewModel {
     public void setGroupInCurrentTable(final Object groupInCurrentTable) {
         if (groupInCurrentTable == null) {
             this.groupInCurrentTable = "";
-        } else {
+        } else if (!this.groupInCurrentTable.equals(groupInCurrentTable.toString())) {
             this.groupInCurrentTable = groupInCurrentTable.toString();
+            logGroupChanging();
         }
     }
 
     public void setSubjectInCurrentTable(final Object subjectInCurrentTable) {
         if (subjectInCurrentTable == null) {
             this.subjectInCurrentTable = "";
-        } else {
+        } else if (!this.subjectInCurrentTable.equals(subjectInCurrentTable.toString())) {
             this.subjectInCurrentTable = subjectInCurrentTable.toString();
+            logSubjectChanging();
         }
     }
 
@@ -104,6 +118,10 @@ public class MainFormViewModel {
     public DefaultTableModel getTableModel() {
         changeTableModel();
         return tableModel;
+    }
+
+    public ILogger getLogger() {
+        return  logger;
     }
 
     private void changeTableModel() {
@@ -140,5 +158,34 @@ public class MainFormViewModel {
                 }
             }
         }
+    }
+
+    public void logGroupChanging() {
+        logger.log(LogMessage.GROUP_CHANGED.getMessage() + groupInCurrentTable + ".");
+    }
+
+    public void logSubjectChanging() {
+        logger.log(LogMessage.SUBJECT_CHANGED.getMessage() + subjectInCurrentTable + ".");
+    }
+
+    public void logActionChanging(final String action) {
+        logger.log(LogMessage.ACTION_CHANGED.getMessage()
+                + action.toLowerCase(Locale.ENGLISH) + ".");
+    }
+
+    public void logDialogActivating() {
+        logger.log(LogMessage.DIALOG_ACTIVATED.getMessage());
+    }
+
+    public void logDialogDeactivating() {
+        logger.log(LogMessage.DIALOG_DEACTIVATED.getMessage());
+    }
+
+    public void logTableSaving(final String fileName) {
+        logger.log(LogMessage.TABLE_SAVED.getMessage() + fileName + ".");
+    }
+
+    public void logTableOpening(final String fileName) {
+        logger.log(LogMessage.TABLE_OPENED.getMessage() + fileName + ".");
     }
 }

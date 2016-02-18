@@ -8,8 +8,9 @@ import org.junit.Test;
 import ru.unn.agile.MarksAccounting.model.*;
 import javax.swing.*;
 import java.text.ParseException;
+import java.util.List;
 
-public class DeleteSubjectDialogViewModelTests {
+public class DeleteSubjectDialogViewModelTests extends DialogViewModelWithLoggerTests {
     private DialogViewModel deleteSubjectViewModel;
     private TableOfMarks tableOfMarks;
 
@@ -17,6 +18,8 @@ public class DeleteSubjectDialogViewModelTests {
     public void setUp() {
         initModel();
         initTable();
+        deleteSubjectViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        setDialogViewModel(deleteSubjectViewModel);
     }
 
     @After
@@ -25,13 +28,18 @@ public class DeleteSubjectDialogViewModelTests {
         tableOfMarks = null;
     }
 
-    private void initModel() {
+    protected void initModel() {
         TableOfMarks tempTableOfMarks = TestDataInitializer.initTableOfMarks();
-        deleteSubjectViewModel = new DeleteSubjectDialogViewModel(tempTableOfMarks);
+        deleteSubjectViewModel = new DeleteSubjectDialogViewModel(tempTableOfMarks,
+                new TestLogger());
     }
 
     private void initTable() {
         tableOfMarks = TestDataInitializer.initTableOfMarks();
+    }
+
+    protected void setDeleteSubjectViewModel(final DialogViewModel deleteSubjectViewModel) {
+        this.deleteSubjectViewModel = deleteSubjectViewModel;
     }
 
     @Test
@@ -106,5 +114,39 @@ public class DeleteSubjectDialogViewModelTests {
         } catch (ParseException e) {
             fail();
         }
+    }
+
+
+    protected void createViewModelWithNullLogger() {
+        new DeleteSubjectDialogViewModel(tableOfMarks, null);
+    }
+
+    @Test
+    public void canLogTableChanging() {
+        try {
+            deleteSubjectViewModel.setDialogGroup("2");
+            deleteSubjectViewModel.setDialogSubject("Science");
+            deleteSubjectViewModel.changeTableOfMarks();
+
+            List<String> messagesInLog = deleteSubjectViewModel.getLog();
+
+            assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
+                    + "Deleting subject Science from group 2"
+                    + LogMessage.COMPLETED_CHANGING.getMessage()));
+            assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
+                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to delete subject."));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void canLogCancellingChanges() {
+        deleteSubjectViewModel.logCancelledChangingTable();
+
+        List<String> messagesInLog = deleteSubjectViewModel.getLog();
+
+        assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
+                ".*" + "Deleting subject" + LogMessage.CANCELLED_CHANGING.getMessage()));
     }
 }

@@ -8,8 +8,9 @@ import org.junit.Test;
 import ru.unn.agile.MarksAccounting.model.*;
 import javax.swing.*;
 import java.text.ParseException;
+import java.util.List;
 
-public class AddSubjectsDialogViewModelTests {
+public class AddSubjectDialogViewModelTests extends DialogViewModelWithLoggerTests {
     private DialogViewModel addSubjectViewModel;
     private TableOfMarks tableOfMarks;
 
@@ -17,6 +18,8 @@ public class AddSubjectsDialogViewModelTests {
     public void setUp() {
         initModel();
         initTable();
+        addSubjectViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        setDialogViewModel(addSubjectViewModel);
     }
 
     @After
@@ -25,9 +28,13 @@ public class AddSubjectsDialogViewModelTests {
         tableOfMarks = null;
     }
 
-    private void initModel() {
+    protected void initModel() {
         TableOfMarks tempTableOfMarks = TestDataInitializer.initTableOfMarks();
-        addSubjectViewModel = new AddSubjectDialogViewModel(tempTableOfMarks);
+        addSubjectViewModel = new AddSubjectDialogViewModel(tempTableOfMarks, new TestLogger());
+    }
+
+    protected void setAddSubjectViewModel(final DialogViewModel addSubjectViewModel) {
+        this.addSubjectViewModel = addSubjectViewModel;
     }
 
     private void initTable() {
@@ -113,5 +120,38 @@ public class AddSubjectsDialogViewModelTests {
         } catch (ParseException e) {
             fail();
         }
+    }
+
+    protected void createViewModelWithNullLogger() {
+        new AddSubjectDialogViewModel(tableOfMarks, null);
+    }
+
+    @Test
+    public void canLogTableChanging() {
+        try {
+            addSubjectViewModel.setDialogGroup("2");
+            addSubjectViewModel.setDialogInputTextBox("Maths");
+            addSubjectViewModel.changeTableOfMarks();
+
+            List<String> messagesInLog = addSubjectViewModel.getLog();
+
+            assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
+                    + "Adding subject Maths to group 2"
+                    + LogMessage.COMPLETED_CHANGING.getMessage()));
+            assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
+                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to add subject."));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void canLogCancellingChanges() {
+        addSubjectViewModel.logCancelledChangingTable();
+
+        List<String> messagesInLog = addSubjectViewModel.getLog();
+
+        assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
+                ".*" + "Adding subject" + LogMessage.CANCELLED_CHANGING.getMessage()));
     }
 }
