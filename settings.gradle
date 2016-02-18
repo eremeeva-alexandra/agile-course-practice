@@ -59,6 +59,8 @@ include "code/eremeeva-alexandra/View"
 project(":code/eremeeva-alexandra/View").name = "eremeeva-alexandra-View"
 include "code/eremeeva-alexandra/ViewModel"
 project(":code/eremeeva-alexandra/ViewModel").name = "eremeeva-alexandra-ViewModel"
+include "code/eremeeva-alexandra/Infrastructure"
+project(":code/eremeeva-alexandra/Infrastructure").name = "eremeeva-alexandra-Infrastructure"
 // Esyagin Ivan
 
 // Filicheva Svetlana
