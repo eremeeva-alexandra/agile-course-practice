@@ -1,5 +1,6 @@
 dependencies {
     compile project(':eremeeva-alexandra-ViewModel')
+    compile project(':eremeeva-alexandra-Infrastructure')
 }
 
 sourceSets {
