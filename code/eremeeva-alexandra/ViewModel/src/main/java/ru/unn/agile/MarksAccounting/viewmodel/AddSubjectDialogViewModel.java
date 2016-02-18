@@ -9,9 +9,6 @@ public class AddSubjectDialogViewModel extends AddingDialogViewModel {
     public AddSubjectDialogViewModel(final TableOfMarks currentTableOfMarks,
                                      final ILogger dialogLogger) {
         setLogger(dialogLogger);
-        if (dialogLogger == null) {
-            throw new IllegalArgumentException("Logger can't be null");
-        }
         setDialogDateTextBoxVisible(false);
         setDialogGroupBoxVisible(true);
         setDialogStudentBoxVisible(false);
@@ -20,6 +17,9 @@ public class AddSubjectDialogViewModel extends AddingDialogViewModel {
         setDialogType(DialogType.ADD_SUBJECT);
         setTableOfMarks(currentTableOfMarks);
         setDialogFieldsByDefault();
+        if (dialogLogger == null) {
+            throw new IllegalArgumentException("Logger can't be null");
+        }
     }
 
     @Override
