@@ -21,7 +21,6 @@ Science
 @EndOfGroup
 @Group
 3
-@Subjects
 @EndOfSubjects
 @Student
 Ivanov
