@@ -6,7 +6,7 @@ import ru.unn.agile.IntersectionFinder.viewmodel.ViewModelTests;
 public class ViewModelWithFinderLoggerTests extends ViewModelTests {
     @Override
     public void setUp() {
-        Logger logger = new Logger("./LoggerTests.log");
+        Logger logger = new Logger("./ViewModelWithLoggerTests.log");
         super.setViewModel(new ViewModel(logger));
     }
 }
