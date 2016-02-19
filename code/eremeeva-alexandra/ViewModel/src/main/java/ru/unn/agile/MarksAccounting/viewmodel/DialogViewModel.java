@@ -163,15 +163,15 @@ public abstract class DialogViewModel {
         return dialogInputTextBox;
     }
 
-    public ComboBoxModel<String> getDialogGroupsComboBoxModel() {
+    protected ComboBoxModel<String> getDialogGroupsComboBoxModel() {
         return new JComboBox<String>(new String[0]).getModel();
     }
 
-    public ComboBoxModel<String> getDialogStudentsComboBoxModel() {
+    protected ComboBoxModel<String> getDialogStudentsComboBoxModel() {
         return new JComboBox<String>(new String[0]).getModel();
     }
 
-    public ComboBoxModel<String> getDialogSubjectsComboBoxModel() {
+    protected ComboBoxModel<String> getDialogSubjectsComboBoxModel() {
         return new JComboBox<String>(new String[0]).getModel();
     }
 

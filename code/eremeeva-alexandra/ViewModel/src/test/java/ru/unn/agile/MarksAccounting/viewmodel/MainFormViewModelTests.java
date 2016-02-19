@@ -141,6 +141,17 @@ public class MainFormViewModelTests {
     }
 
     @Test
+    public void getEmptyScubjectComboBoxWhenSubjectsDoNotExist() {
+        ComboBoxModel<String> trueComboBoxModel =
+                new JComboBox<String>(new String[0]).getModel();
+
+        mainFormViewModel = new MainFormViewModel(new TestLogger());
+
+        assertTrue(ComboBoxModelsEqualer.comboBoxModelsEqualing(trueComboBoxModel,
+                mainFormViewModel.getSubjectComboBoxModel()));
+    }
+
+    @Test
     public void canSetGroupInCurrentTableWhenGroupsExist() {
         mainFormViewModel.setGroupInCurrentTable("1");
 
