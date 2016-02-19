@@ -10,33 +10,33 @@ public final class TableReader {
     private TableReader() { }
 
     public static TableOfMarks readFile(final String fileName) throws Exception {
-        FileReader fileReader = new FileReader(fileName);
+        FileReader reader = new FileReader(fileName);
         TableOfMarks tableOfMarks = new TableOfMarks();
         Group currentGroup;
-        while (fileReader.ready()) {
-            currentGroup = readGroup(fileReader, tableOfMarks);
-            readSubjects(fileReader, currentGroup, tableOfMarks);
-            readStudents(fileReader, currentGroup, tableOfMarks);
+        while (reader.ready()) {
+            currentGroup = readGroup(reader, tableOfMarks);
+            readSubjects(reader, currentGroup, tableOfMarks);
+            readStudents(reader, currentGroup, tableOfMarks);
         }
-        fileReader.close();
+        reader.close();
         return tableOfMarks;
     }
 
-    private static Group readGroup(final FileReader fileReader,
+    private static Group readGroup(final FileReader reader,
                                    final TableOfMarks tableOfMarks) throws Exception {
         String line;
-        if (LineReader.readLine(fileReader).equals(TableTags.GROUP.getTag())) {
-            line = LineReader.readLine(fileReader);
+        if (LineReader.readLine(reader).equals(TableTags.GROUP.getTag())) {
+            line = LineReader.readLine(reader);
             tableOfMarks.addGroup(new Group(line));
             return new Group(line);
         }
         throw new RuntimeException("Bad format");
     }
 
-    private static void readSubjects(final FileReader fileReader, final Group currentGroup,
+    private static void readSubjects(final FileReader reader, final Group currentGroup,
                                  final TableOfMarks tableOfMarks) throws Exception {
-        if (TableTags.SUBJECTS.getTag().equals(LineReader.readLine(fileReader))) {
-            String line = LineReader.readLine(fileReader);
+        if (TableTags.SUBJECTS.getTag().equals(LineReader.readLine(reader))) {
+            String line = LineReader.readLine(reader);
             while (!line.equals(TableTags.END_OF_SUBJECTS.getTag())) {
                 if (line.equals(TableTags.MARK.getTag()) || line.equals(TableTags.STUDENT.getTag())
                         || line.equals(TableTags.GROUP.getTag())
@@ -44,48 +44,48 @@ public final class TableReader {
                     throw  new RuntimeException("Bad format");
                 }
                 tableOfMarks.addAcademicSubject(currentGroup, line);
-                line = LineReader.readLine(fileReader);
+                line = LineReader.readLine(reader);
             }
             return;
         }
         throw new RuntimeException("Bad format");
     }
 
-    private static void readStudents(final FileReader fileReader, final Group currentGroup,
+    private static void readStudents(final FileReader reader, final Group currentGroup,
                                  final TableOfMarks tableOfMarks) throws Exception {
-        String line = LineReader.readLine(fileReader);
+        String line = LineReader.readLine(reader);
         Student currentStudent;
         while (!line.equals(TableTags.END_OF_GROUP.getTag())) {
             if (line.equals(TableTags.STUDENT.getTag())) {
-                currentStudent = new Student(LineReader.readLine(fileReader));
+                currentStudent = new Student(LineReader.readLine(reader));
                 tableOfMarks.addStudent(currentGroup, currentStudent);
-                readMarks(fileReader, currentGroup, currentStudent, tableOfMarks);
-                line = LineReader.readLine(fileReader);
+                readMarks(reader, currentGroup, currentStudent, tableOfMarks);
+                line = LineReader.readLine(reader);
             } else {
                 throw new RuntimeException("Bad format");
             }
         }
     }
 
-    private static void readMarks(final FileReader fileReader, final Group currentGroup,
+    private static void readMarks(final FileReader reader, final Group currentGroup,
                               final Student currentStudent, final TableOfMarks tableOfMarks)
             throws Exception {
-        String line = LineReader.readLine(fileReader);
+        String line = LineReader.readLine(reader);
         while (!line.equals(TableTags.END_OF_STUDENT.getTag())) {
             if (!line.equals(TableTags.MARK.getTag())) {
                 throw new RuntimeException("Bad format");
             }
-            readMark(fileReader, currentGroup, currentStudent, tableOfMarks);
-            line = LineReader.readLine(fileReader);
+            readMark(reader, currentGroup, currentStudent, tableOfMarks);
+            line = LineReader.readLine(reader);
         }
     }
 
-    private static void readMark(final FileReader fileReader, final Group currentGroup,
+    private static void readMark(final FileReader reader, final Group currentGroup,
                              final Student currentStudent, final TableOfMarks tableOfMarks)
             throws Exception {
-        String line = LineReader.readLine(fileReader);
-        GregorianCalendar gregorianCalendar = DateParser.parseDate(LineReader.readLine(fileReader));
-        int markValue = Integer.parseInt(LineReader.readLine(fileReader));
+        String line = LineReader.readLine(reader);
+        GregorianCalendar gregorianCalendar = DateParser.parseDate(LineReader.readLine(reader));
+        int markValue = Integer.parseInt(LineReader.readLine(reader));
         tableOfMarks.addNewMark(new Mark(markValue, line, gregorianCalendar),
                 currentStudent, currentGroup);
     }
