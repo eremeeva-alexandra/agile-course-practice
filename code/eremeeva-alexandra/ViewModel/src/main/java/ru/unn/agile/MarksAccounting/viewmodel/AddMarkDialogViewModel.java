@@ -49,18 +49,18 @@ public class AddMarkDialogViewModel extends AddingDialogViewModel {
 
     @Override
     protected void logTriedChangingTable() {
-        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to add mark.");
+        getLogger().log(LogMessage.TRIED_CHANGING + "to add mark.");
     }
 
     @Override
     protected void logCompletedChangingTable() {
         getLogger().log("Adding mark " + getDialogInputTextBox() + " on date " + getDialogDate()
                 + " and subject " + getDialogSubject() + " to student " + getDialogStudent()
-                + " of group " + getDialogGroup() + LogMessage.COMPLETED_CHANGING.getMessage());
+                + " of group " + getDialogGroup() + LogMessage.COMPLETED_CHANGING);
     }
 
     @Override
     public void logCancelledChangingTable() {
-        getLogger().log("Adding mark" + LogMessage.CANCELLED_CHANGING.getMessage());
+        getLogger().log("Adding mark" + LogMessage.CANCELLED_CHANGING);
     }
 }

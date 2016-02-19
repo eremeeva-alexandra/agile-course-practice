@@ -17,7 +17,7 @@ public class AddStudentDialogViewModelTests extends DialogViewModelWithLoggerTes
     public void setUp() {
         initModel();
         initTable();
-        addStudentViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        addStudentViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED);
         setDialogViewModel(addStudentViewModel);
     }
 
@@ -136,9 +136,9 @@ public class AddStudentDialogViewModelTests extends DialogViewModelWithLoggerTes
 
             assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
                     + "Adding student Sidorov to group 2"
-                    + LogMessage.COMPLETED_CHANGING.getMessage()));
+                    + LogMessage.COMPLETED_CHANGING));
             assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
-                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to add student."));
+                    ".*" + LogMessage.TRIED_CHANGING + "to add student."));
         } catch (Exception e) {
             fail();
         }
@@ -151,6 +151,6 @@ public class AddStudentDialogViewModelTests extends DialogViewModelWithLoggerTes
         List<String> messagesInLog = addStudentViewModel.getLog();
 
         assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
-                ".*" + "Adding student" + LogMessage.CANCELLED_CHANGING.getMessage()));
+                ".*" + "Adding student" + LogMessage.CANCELLED_CHANGING));
     }
 }

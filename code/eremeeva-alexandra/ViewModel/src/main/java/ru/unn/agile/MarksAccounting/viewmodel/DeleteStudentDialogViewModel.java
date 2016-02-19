@@ -45,17 +45,17 @@ public class DeleteStudentDialogViewModel extends DeletingDialogViewModel {
 
     @Override
     protected void logTriedChangingTable() {
-        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to delete student.");
+        getLogger().log(LogMessage.TRIED_CHANGING + "to delete student.");
     }
 
     @Override
     protected void logCompletedChangingTable() {
         getLogger().log("Deleting student " + getDialogStudent() + " of group " + getDialogGroup()
-                + LogMessage.COMPLETED_CHANGING.getMessage());
+                + LogMessage.COMPLETED_CHANGING);
     }
 
     @Override
     public void logCancelledChangingTable() {
-        getLogger().log("Deleting student" + LogMessage.CANCELLED_CHANGING.getMessage());
+        getLogger().log("Deleting student" + LogMessage.CANCELLED_CHANGING);
     }
 }

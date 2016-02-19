@@ -36,17 +36,17 @@ public class DeleteGroupDialogViewModel extends DeletingDialogViewModel {
 
     @Override
     protected void logTriedChangingTable() {
-        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to delete group.");
+        getLogger().log(LogMessage.TRIED_CHANGING + "to delete group.");
     }
 
     @Override
     protected void logCompletedChangingTable() {
         getLogger().log("Deleting group " + getDialogGroup()
-                + LogMessage.COMPLETED_CHANGING.getMessage());
+                + LogMessage.COMPLETED_CHANGING);
     }
 
     @Override
     public void logCancelledChangingTable() {
-        getLogger().log("Deleting group" + LogMessage.CANCELLED_CHANGING.getMessage());
+        getLogger().log("Deleting group" + LogMessage.CANCELLED_CHANGING);
     }
 }

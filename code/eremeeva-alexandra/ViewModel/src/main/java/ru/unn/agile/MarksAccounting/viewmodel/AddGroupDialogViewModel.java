@@ -30,17 +30,17 @@ public class AddGroupDialogViewModel extends AddingDialogViewModel {
 
     @Override
     protected void logTriedChangingTable() {
-        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to add group.");
+        getLogger().log(LogMessage.TRIED_CHANGING + "to add group.");
     }
 
     @Override
     protected void logCompletedChangingTable() {
         getLogger().log("Adding group " + getDialogInputTextBox()
-                + LogMessage.COMPLETED_CHANGING.getMessage());
+                + LogMessage.COMPLETED_CHANGING);
     }
 
     @Override
     public void logCancelledChangingTable() {
-        getLogger().log("Adding group" + LogMessage.CANCELLED_CHANGING.getMessage());
+        getLogger().log("Adding group" + LogMessage.CANCELLED_CHANGING);
     }
 }

@@ -101,13 +101,13 @@ public class CSVLoggerTests {
     }
 
     private String[] createMessages() {
-        String[] messages = {LogMessage.ACTION_CHANGED.getMessage(),
-                LogMessage.DIALOG_ACTIVATED.getMessage(),
-                LogMessage.GROUP_CHANGED.getMessage(),
-                LogMessage.TRIED_CHANGING.getMessage(),
-                LogMessage.COMPLETED_CHANGING.getMessage(),
-                LogMessage.DIALOG_DEACTIVATED.getMessage(),
-                LogMessage.TABLE_SAVED.getMessage()};
+        String[] messages = {LogMessage.ACTION_CHANGED,
+                LogMessage.DIALOG_ACTIVATED,
+                LogMessage.GROUP_CHANGED,
+                LogMessage.TRIED_CHANGING,
+                LogMessage.COMPLETED_CHANGING,
+                LogMessage.DIALOG_DEACTIVATED,
+                LogMessage.TABLE_SAVED};
         return messages;
     }
 

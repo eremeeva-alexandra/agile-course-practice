@@ -36,17 +36,17 @@ public class AddStudentDialogViewModel extends AddingDialogViewModel {
 
     @Override
     protected void logTriedChangingTable() {
-        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to add student.");
+        getLogger().log(LogMessage.TRIED_CHANGING + "to add student.");
     }
 
     @Override
     protected void logCompletedChangingTable() {
         getLogger().log("Adding student " + getDialogInputTextBox()
-                + " to group " + getDialogGroup() + LogMessage.COMPLETED_CHANGING.getMessage());
+                + " to group " + getDialogGroup() + LogMessage.COMPLETED_CHANGING);
     }
 
     @Override
     public void logCancelledChangingTable() {
-        getLogger().log("Adding student" + LogMessage.CANCELLED_CHANGING.getMessage());
+        getLogger().log("Adding student" + LogMessage.CANCELLED_CHANGING);
     }
 }

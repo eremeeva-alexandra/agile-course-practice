@@ -18,7 +18,7 @@ public class DeleteStudentDialogViewModelTests extends DialogViewModelWithLogger
     public void setUp() {
         initModel();
         initTable();
-        deleteStudentViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        deleteStudentViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED);
         setDialogViewModel(deleteStudentViewModel);
     }
 
@@ -131,9 +131,9 @@ public class DeleteStudentDialogViewModelTests extends DialogViewModelWithLogger
 
             assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
                     + "Deleting student Ivanov of group 3"
-                    + LogMessage.COMPLETED_CHANGING.getMessage()));
+                    + LogMessage.COMPLETED_CHANGING));
             assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
-                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to delete student."));
+                    ".*" + LogMessage.TRIED_CHANGING + "to delete student."));
         } catch (Exception e) {
             fail();
         }
@@ -146,6 +146,6 @@ public class DeleteStudentDialogViewModelTests extends DialogViewModelWithLogger
         List<String> messagesInLog = deleteStudentViewModel.getLog();
 
         assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
-                ".*" + "Deleting student" + LogMessage.CANCELLED_CHANGING.getMessage()));
+                ".*" + "Deleting student" + LogMessage.CANCELLED_CHANGING));
     }
 }

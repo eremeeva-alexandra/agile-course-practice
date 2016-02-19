@@ -55,18 +55,18 @@ public class DeleteMarkDialogViewModel extends DeletingDialogViewModel {
 
     @Override
     protected void logTriedChangingTable() {
-        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to delete mark.");
+        getLogger().log(LogMessage.TRIED_CHANGING + "to delete mark.");
     }
 
     @Override
     protected void logCompletedChangingTable() {
         getLogger().log("Deleting mark on date " + getDialogDate() + " from subject "
                 + getDialogSubject() + " and student " + getDialogStudent() + " of group "
-                + getDialogGroup() + LogMessage.COMPLETED_CHANGING.getMessage());
+                + getDialogGroup() + LogMessage.COMPLETED_CHANGING);
     }
 
     @Override
     public void logCancelledChangingTable() {
-        getLogger().log("Deleting mark" + LogMessage.CANCELLED_CHANGING.getMessage());
+        getLogger().log("Deleting mark" + LogMessage.CANCELLED_CHANGING);
     }
 }

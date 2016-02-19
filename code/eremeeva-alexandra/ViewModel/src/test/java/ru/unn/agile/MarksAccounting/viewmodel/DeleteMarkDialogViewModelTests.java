@@ -20,7 +20,7 @@ public class DeleteMarkDialogViewModelTests extends DialogViewModelWithLoggerTes
     public void setUp() {
         initModel();
         initTable();
-        deleteMarkViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        deleteMarkViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED);
         setDialogViewModel(deleteMarkViewModel);
     }
 
@@ -189,9 +189,9 @@ public class DeleteMarkDialogViewModelTests extends DialogViewModelWithLoggerTes
 
             assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
                     + "Deleting mark on date 10-5-2015 from subject Maths and student Sidorov "
-                    + "of group 1" + LogMessage.COMPLETED_CHANGING.getMessage()));
+                    + "of group 1" + LogMessage.COMPLETED_CHANGING));
             assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
-                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to delete mark."));
+                    ".*" + LogMessage.TRIED_CHANGING + "to delete mark."));
         } catch (Exception e) {
             fail();
         }
@@ -204,6 +204,6 @@ public class DeleteMarkDialogViewModelTests extends DialogViewModelWithLoggerTes
         List<String> messagesInLog = deleteMarkViewModel.getLog();
 
         assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
-                ".*" + "Deleting mark" + LogMessage.CANCELLED_CHANGING.getMessage()));
+                ".*" + "Deleting mark" + LogMessage.CANCELLED_CHANGING));
     }
 }

@@ -44,17 +44,17 @@ public class DeleteSubjectDialogViewModel extends DeletingDialogViewModel {
 
     @Override
     protected void logTriedChangingTable() {
-        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to delete subject.");
+        getLogger().log(LogMessage.TRIED_CHANGING + "to delete subject.");
     }
 
     @Override
     protected void logCompletedChangingTable() {
         getLogger().log("Deleting subject " + getDialogSubject() + " from group "
-                + getDialogGroup() + LogMessage.COMPLETED_CHANGING.getMessage());
+                + getDialogGroup() + LogMessage.COMPLETED_CHANGING);
     }
 
     @Override
     public void logCancelledChangingTable() {
-        getLogger().log("Deleting subject" + LogMessage.CANCELLED_CHANGING.getMessage());
+        getLogger().log("Deleting subject" + LogMessage.CANCELLED_CHANGING);
     }
 }

@@ -37,17 +37,17 @@ public class AddSubjectDialogViewModel extends AddingDialogViewModel {
 
     @Override
     protected void logTriedChangingTable() {
-        getLogger().log(LogMessage.TRIED_CHANGING.getMessage() + "to add subject.");
+        getLogger().log(LogMessage.TRIED_CHANGING + "to add subject.");
     }
 
     @Override
     protected void logCompletedChangingTable() {
         getLogger().log("Adding subject " + getDialogInputTextBox()
-                + " to group " + getDialogGroup() + LogMessage.COMPLETED_CHANGING.getMessage());
+                + " to group " + getDialogGroup() + LogMessage.COMPLETED_CHANGING);
     }
 
     @Override
     public void logCancelledChangingTable() {
-        getLogger().log("Adding subject" + LogMessage.CANCELLED_CHANGING.getMessage());
+        getLogger().log("Adding subject" + LogMessage.CANCELLED_CHANGING);
     }
 }

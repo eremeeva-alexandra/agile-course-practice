@@ -161,31 +161,30 @@ public class MainFormViewModel {
     }
 
     public void logGroupChanging() {
-        logger.log(LogMessage.GROUP_CHANGED.getMessage() + groupInCurrentTable + ".");
+        logger.log(LogMessage.GROUP_CHANGED + groupInCurrentTable + ".");
     }
 
     public void logSubjectChanging() {
-        logger.log(LogMessage.SUBJECT_CHANGED.getMessage() + subjectInCurrentTable + ".");
+        logger.log(LogMessage.SUBJECT_CHANGED + subjectInCurrentTable + ".");
     }
 
     public void logActionChanging(final String action) {
-        logger.log(LogMessage.ACTION_CHANGED.getMessage()
-                + action.toLowerCase(Locale.ENGLISH) + ".");
+        logger.log(LogMessage.ACTION_CHANGED + action.toLowerCase(Locale.ENGLISH) + ".");
     }
 
     public void logDialogActivating() {
-        logger.log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        logger.log(LogMessage.DIALOG_ACTIVATED);
     }
 
     public void logDialogDeactivating() {
-        logger.log(LogMessage.DIALOG_DEACTIVATED.getMessage());
+        logger.log(LogMessage.DIALOG_DEACTIVATED);
     }
 
     public void logTableSaving(final String fileName) {
-        logger.log(LogMessage.TABLE_SAVED.getMessage() + fileName + ".");
+        logger.log(LogMessage.TABLE_SAVED + fileName + ".");
     }
 
     public void logTableOpening(final String fileName) {
-        logger.log(LogMessage.TABLE_OPENED.getMessage() + fileName + ".");
+        logger.log(LogMessage.TABLE_OPENED + fileName + ".");
     }
 }

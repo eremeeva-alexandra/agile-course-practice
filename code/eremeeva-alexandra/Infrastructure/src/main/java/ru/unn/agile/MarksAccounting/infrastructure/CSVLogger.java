@@ -46,7 +46,7 @@ public class CSVLogger implements ILogger {
         try {
             fileReader = new FileReader(fileName);
             if (windowType == WindowType.DIALOG) {
-                log = getLogForDialog(fileReader);
+                log = getLogForLastDialog(fileReader);
             } else {
                 log = getLogForMainWindow(fileReader);
             }
@@ -57,7 +57,7 @@ public class CSVLogger implements ILogger {
         return log;
     }
 
-    private ArrayList<String> getLogForDialog(final FileReader fileReader) throws IOException {
+    private ArrayList<String> getLogForLastDialog(final FileReader fileReader) throws IOException {
         String line;
         ArrayList<String> fullLog = new ArrayList<String>();
         ArrayList<String> resultLog = new ArrayList<String>();

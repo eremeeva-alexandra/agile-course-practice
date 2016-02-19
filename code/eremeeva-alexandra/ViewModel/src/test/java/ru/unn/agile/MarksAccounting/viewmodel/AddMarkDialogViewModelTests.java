@@ -19,7 +19,7 @@ public class AddMarkDialogViewModelTests extends DialogViewModelWithLoggerTests 
     public void setUp() {
         initModel();
         initTable();
-        addMarkViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        addMarkViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED);
         setDialogViewModel(addMarkViewModel);
     }
 
@@ -225,10 +225,10 @@ public class AddMarkDialogViewModelTests extends DialogViewModelWithLoggerTests 
             List<String> messagesInLog = addMarkViewModel.getLog();
 
             assertTrue(messagesInLog.get(messagesInLog.size() -  2).matches(
-                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to add mark."));
+                    ".*" + LogMessage.TRIED_CHANGING + "to add mark."));
             assertTrue(messagesInLog.get(messagesInLog.size() - 1).matches(
                     ".*" + "Adding mark 4 on date 10-03-2016 and subject Maths to student Sidorov"
-                            + " of group 1" + LogMessage.COMPLETED_CHANGING.getMessage()));
+                            + " of group 1" + LogMessage.COMPLETED_CHANGING));
         } catch (Exception e) {
             fail();
         }
@@ -241,6 +241,6 @@ public class AddMarkDialogViewModelTests extends DialogViewModelWithLoggerTests 
         List<String> messagesInLog = addMarkViewModel.getLog();
 
         assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
-                ".*" + "Adding mark" + LogMessage.CANCELLED_CHANGING.getMessage()));
+                ".*" + "Adding mark" + LogMessage.CANCELLED_CHANGING));
     }
 }

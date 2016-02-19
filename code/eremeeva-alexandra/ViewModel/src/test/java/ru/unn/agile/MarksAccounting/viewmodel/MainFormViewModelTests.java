@@ -252,7 +252,7 @@ public class MainFormViewModelTests {
 
         assertEquals(1, messagesInLog.size());
         assertTrue(messagesInLog.get(0).matches(".*"
-                + LogMessage.GROUP_CHANGED.getMessage() + "1."));
+                + LogMessage.GROUP_CHANGED + "1."));
     }
 
     @Test
@@ -265,7 +265,7 @@ public class MainFormViewModelTests {
 
         assertEquals(1, messagesInLog.size());
         assertTrue(messagesInLog.get(0).matches(".*"
-                + LogMessage.GROUP_CHANGED.getMessage() + "4."));
+                + LogMessage.GROUP_CHANGED + "4."));
     }
 
     @Test
@@ -276,7 +276,7 @@ public class MainFormViewModelTests {
 
         assertEquals(1, messagesInLog.size());
         assertTrue(messagesInLog.get(0).matches(".*"
-                + LogMessage.SUBJECT_CHANGED.getMessage() + "History."));
+                + LogMessage.SUBJECT_CHANGED + "History."));
     }
 
     @Test
@@ -289,7 +289,7 @@ public class MainFormViewModelTests {
 
         assertEquals(1, messagesInLog.size());
         assertTrue(messagesInLog.get(0).matches(".*"
-                + LogMessage.SUBJECT_CHANGED.getMessage() + "Art."));
+                + LogMessage.SUBJECT_CHANGED + "Art."));
     }
 
     @Test
@@ -300,7 +300,7 @@ public class MainFormViewModelTests {
 
         assertEquals(1, messagesInLog.size());
         assertTrue(messagesInLog.get(0).matches(".*"
-                + LogMessage.ACTION_CHANGED.getMessage() + "add group."));
+                + LogMessage.ACTION_CHANGED + "add group."));
     }
 
     @Test
@@ -312,8 +312,8 @@ public class MainFormViewModelTests {
         List<String> messagesInLog = mainFormViewModel.getLog();
 
         assertEquals(3, messagesInLog.size());
-        assertTrue(messagesInLog.get(0).matches(".*" + LogMessage.DIALOG_ACTIVATED.getMessage()));
-        assertTrue(messagesInLog.get(2).matches(".*" + LogMessage.DIALOG_DEACTIVATED.getMessage()));
+        assertTrue(messagesInLog.get(0).matches(".*" + LogMessage.DIALOG_ACTIVATED));
+        assertTrue(messagesInLog.get(2).matches(".*" + LogMessage.DIALOG_DEACTIVATED));
     }
 
     @Test
@@ -324,7 +324,7 @@ public class MainFormViewModelTests {
 
         assertEquals(1, messagesInLog.size());
         assertTrue(messagesInLog.get(0).matches(".*"
-                + LogMessage.TABLE_SAVED.getMessage() + "./TestTable.txt."));
+                + LogMessage.TABLE_SAVED + "./TestTable.txt."));
     }
 
     @Test
@@ -335,6 +335,6 @@ public class MainFormViewModelTests {
 
         assertEquals(1, messagesInLog.size());
         assertTrue(messagesInLog.get(0).matches(".*"
-                + LogMessage.TABLE_OPENED.getMessage() + "./TestTable.txt."));
+                + LogMessage.TABLE_OPENED + "./TestTable.txt."));
     }
 }

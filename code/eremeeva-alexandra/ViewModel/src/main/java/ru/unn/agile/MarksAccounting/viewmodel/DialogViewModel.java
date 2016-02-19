@@ -223,38 +223,38 @@ public abstract class DialogViewModel {
     }
 
     protected void logTriedChangingTable() {
-        logger.log(LogMessage.TRIED_CHANGING.getMessage() + "to change table.");
+        logger.log(LogMessage.TRIED_CHANGING + "to change table.");
     }
 
     public void logErrorWhileChangingTable(final String errorMessage) {
-        logger.log(LogMessage.ERROR.getMessage() + errorMessage);
+        logger.log(LogMessage.ERROR + errorMessage);
     }
 
     public void logCancelledChangingTable() {
-        logger.log("Changing" + LogMessage.CANCELLED_CHANGING.getMessage());
+        logger.log("Changing" + LogMessage.CANCELLED_CHANGING);
     }
 
     protected void logCompletedChangingTable() {
-        logger.log("Changing" + LogMessage.COMPLETED_CHANGING.getMessage());
+        logger.log("Changing" + LogMessage.COMPLETED_CHANGING);
     }
 
     private void logGroupChanging() {
-        logger.log(LogMessage.GROUP_CHANGED.getMessage() + dialogGroup + ".");
+        logger.log(LogMessage.GROUP_CHANGED + dialogGroup + ".");
     }
 
     private void logStudentChanging() {
-        logger.log(LogMessage.STUDENT_CHANGED.getMessage() + dialogStudent + ".");
+        logger.log(LogMessage.STUDENT_CHANGED + dialogStudent + ".");
     }
 
     private void logSubjectChanging() {
-        logger.log(LogMessage.SUBJECT_CHANGED.getMessage() + dialogSubject + ".");
+        logger.log(LogMessage.SUBJECT_CHANGED + dialogSubject + ".");
     }
 
     private void logDateChanging() {
-        logger.log(LogMessage.DATE_CHANGED.getMessage() + dialogDate + ".");
+        logger.log(LogMessage.DATE_CHANGED + dialogDate + ".");
     }
 
     private void logInputValueChanging() {
-        logger.log(LogMessage.INPUT_CHANGED.getMessage() + dialogInputTextBox + ".");
+        logger.log(LogMessage.INPUT_CHANGED + dialogInputTextBox + ".");
     }
 }

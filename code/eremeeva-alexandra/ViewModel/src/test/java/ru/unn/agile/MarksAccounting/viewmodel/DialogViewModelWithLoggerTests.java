@@ -17,7 +17,7 @@ public class DialogViewModelWithLoggerTests {
     @Before
     public void setUp() {
         dialogViewModel = new TestDialogViewModel(new TestLogger());
-        dialogViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        dialogViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED);
     }
 
     @After
@@ -63,7 +63,7 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.GROUP_CHANGED.getMessage() + "2."));
+                + LogMessage.GROUP_CHANGED + "2."));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.GROUP_CHANGED.getMessage() + "3."));
+                + LogMessage.GROUP_CHANGED + "3."));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.SUBJECT_CHANGED.getMessage() + "Maths."));
+                + LogMessage.SUBJECT_CHANGED + "Maths."));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.SUBJECT_CHANGED.getMessage() + "Science."));
+                + LogMessage.SUBJECT_CHANGED + "Science."));
     }
 
     @Test
@@ -111,7 +111,7 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.STUDENT_CHANGED.getMessage() + "Smirnov."));
+                + LogMessage.STUDENT_CHANGED + "Smirnov."));
     }
 
     @Test
@@ -124,7 +124,7 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.STUDENT_CHANGED.getMessage() + "Sidorov."));
+                + LogMessage.STUDENT_CHANGED + "Sidorov."));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.DATE_CHANGED.getMessage() + "11-12-2015."));
+                + LogMessage.DATE_CHANGED + "11-12-2015."));
     }
 
     @Test
@@ -148,7 +148,7 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.DATE_CHANGED.getMessage() + "02-02-2016."));
+                + LogMessage.DATE_CHANGED + "02-02-2016."));
     }
 
     @Test
@@ -159,7 +159,7 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.INPUT_CHANGED.getMessage() + "5."));
+                + LogMessage.INPUT_CHANGED + "5."));
     }
 
     @Test
@@ -172,7 +172,7 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.INPUT_CHANGED.getMessage() + "6."));
+                + LogMessage.INPUT_CHANGED + "6."));
     }
 
     @Test
@@ -184,6 +184,6 @@ public class DialogViewModelWithLoggerTests {
 
         assertEquals(2, messagesInLog.size());
         assertTrue(messagesInLog.get(1).matches(".*"
-                + LogMessage.ERROR.getMessage() + "Group already exists!"));
+                + LogMessage.ERROR + "Group already exists!"));
     }
 }

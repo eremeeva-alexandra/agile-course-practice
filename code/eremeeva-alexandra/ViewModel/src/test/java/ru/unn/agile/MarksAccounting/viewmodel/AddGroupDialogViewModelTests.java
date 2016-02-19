@@ -18,7 +18,7 @@ public class AddGroupDialogViewModelTests extends DialogViewModelWithLoggerTests
     public void setUp() {
         initModel();
         initTable();
-        addGroupViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        addGroupViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED);
         setDialogViewModel(addGroupViewModel);
     }
 
@@ -115,9 +115,9 @@ public class AddGroupDialogViewModelTests extends DialogViewModelWithLoggerTests
             List<String> messagesInLog = addGroupViewModel.getLog();
 
             assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
-                    ".*" + "Adding group 111" + LogMessage.COMPLETED_CHANGING.getMessage()));
+                    ".*" + "Adding group 111" + LogMessage.COMPLETED_CHANGING));
             assertTrue(messagesInLog.get(messagesInLog.size() -  2).matches(
-                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to add group."));
+                    ".*" + LogMessage.TRIED_CHANGING + "to add group."));
         } catch (Exception e) {
             fail();
         }
@@ -130,6 +130,6 @@ public class AddGroupDialogViewModelTests extends DialogViewModelWithLoggerTests
         List<String> messagesInLog = addGroupViewModel.getLog();
 
         assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
-                ".*" + "Adding group" + LogMessage.CANCELLED_CHANGING.getMessage()));
+                ".*" + "Adding group" + LogMessage.CANCELLED_CHANGING));
     }
 }

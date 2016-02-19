@@ -20,7 +20,7 @@ public class DeleteGroupDialogViewModelTests extends DialogViewModelWithLoggerTe
     public void setUp() {
         initModel();
         initTable();
-        deleteGroupViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        deleteGroupViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED);
         setDialogViewModel(deleteGroupViewModel);
     }
 
@@ -102,9 +102,9 @@ public class DeleteGroupDialogViewModelTests extends DialogViewModelWithLoggerTe
             List<String> messagesInLog = deleteGroupViewModel.getLog();
 
             assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
-                    + "Deleting group 1" + LogMessage.COMPLETED_CHANGING.getMessage()));
+                    + "Deleting group 1" + LogMessage.COMPLETED_CHANGING));
             assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
-                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to delete group."));
+                    ".*" + LogMessage.TRIED_CHANGING + "to delete group."));
         } catch (Exception e) {
             fail();
         }
@@ -117,6 +117,6 @@ public class DeleteGroupDialogViewModelTests extends DialogViewModelWithLoggerTe
         List<String> messagesInLog = deleteGroupViewModel.getLog();
 
         assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
-                ".*" + "Deleting group" + LogMessage.CANCELLED_CHANGING.getMessage()));
+                ".*" + "Deleting group" + LogMessage.CANCELLED_CHANGING));
     }
 }

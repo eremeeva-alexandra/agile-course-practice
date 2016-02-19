@@ -18,7 +18,7 @@ public class AddSubjectDialogViewModelTests extends DialogViewModelWithLoggerTes
     public void setUp() {
         initModel();
         initTable();
-        addSubjectViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        addSubjectViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED);
         setDialogViewModel(addSubjectViewModel);
     }
 
@@ -137,9 +137,9 @@ public class AddSubjectDialogViewModelTests extends DialogViewModelWithLoggerTes
 
             assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
                     + "Adding subject Maths to group 2"
-                    + LogMessage.COMPLETED_CHANGING.getMessage()));
+                    + LogMessage.COMPLETED_CHANGING));
             assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
-                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to add subject."));
+                    ".*" + LogMessage.TRIED_CHANGING + "to add subject."));
         } catch (Exception e) {
             fail();
         }
@@ -152,6 +152,6 @@ public class AddSubjectDialogViewModelTests extends DialogViewModelWithLoggerTes
         List<String> messagesInLog = addSubjectViewModel.getLog();
 
         assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
-                ".*" + "Adding subject" + LogMessage.CANCELLED_CHANGING.getMessage()));
+                ".*" + "Adding subject" + LogMessage.CANCELLED_CHANGING));
     }
 }

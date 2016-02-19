@@ -18,7 +18,7 @@ public class DeleteSubjectDialogViewModelTests extends DialogViewModelWithLogger
     public void setUp() {
         initModel();
         initTable();
-        deleteSubjectViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED.getMessage());
+        deleteSubjectViewModel.getLogger().log(LogMessage.DIALOG_ACTIVATED);
         setDialogViewModel(deleteSubjectViewModel);
     }
 
@@ -132,9 +132,9 @@ public class DeleteSubjectDialogViewModelTests extends DialogViewModelWithLogger
 
             assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(".*"
                     + "Deleting subject Science from group 2"
-                    + LogMessage.COMPLETED_CHANGING.getMessage()));
+                    + LogMessage.COMPLETED_CHANGING));
             assertTrue(messagesInLog.get(messagesInLog.size() - 2).matches(
-                    ".*" + LogMessage.TRIED_CHANGING.getMessage() + "to delete subject."));
+                    ".*" + LogMessage.TRIED_CHANGING + "to delete subject."));
         } catch (Exception e) {
             fail();
         }
@@ -147,6 +147,6 @@ public class DeleteSubjectDialogViewModelTests extends DialogViewModelWithLogger
         List<String> messagesInLog = deleteSubjectViewModel.getLog();
 
         assertTrue(messagesInLog.get(messagesInLog.size() -  1).matches(
-                ".*" + "Deleting subject" + LogMessage.CANCELLED_CHANGING.getMessage()));
+                ".*" + "Deleting subject" + LogMessage.CANCELLED_CHANGING));
     }
 }
