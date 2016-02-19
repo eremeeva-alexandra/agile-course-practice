@@ -15,51 +15,51 @@ public final class TableSaver {
 
     public static void save(final String fileName,
                             final TableOfMarks tableOfMarks) throws IOException {
-        FileWriter writer = new FileWriter(fileName);
-        writeFile(writer, tableOfMarks);
-        writer.close();
+        FileWriter fileWriter = new FileWriter(fileName);
+        writeFile(fileWriter, tableOfMarks);
+        fileWriter.close();
     }
 
-    private static void writeFile(final FileWriter writer,
+    private static void writeFile(final FileWriter fileWriter,
                                   final TableOfMarks tableOfMarks) throws IOException {
         ArrayList<Group> groups = tableOfMarks.getGroups();
         for (int i = 0; i < groups.size(); i++) {
-            writer.write(TableTags.GROUP.getTag() + "\n");
-            writer.write(groups.get(i).getNumber());
-            writer.write("\n");
-            writeSubjects(writer, groups.get(i));
-            writeStudents(writer, groups.get(i));
-            writer.write(TableTags.END_OF_GROUP.getTag() + "\n");
+            fileWriter.write(TableTags.GROUP.getTag() + "\n");
+            fileWriter.write(groups.get(i).getNumber());
+            fileWriter.write("\n");
+            writeSubjects(fileWriter, groups.get(i));
+            writeStudents(fileWriter, groups.get(i));
+            fileWriter.write(TableTags.END_OF_GROUP.getTag() + "\n");
         }
     }
 
-    private static void writeSubjects(final FileWriter writer,
+    private static void writeSubjects(final FileWriter fileWriter,
                                       final Group group) throws IOException {
-        writer.write(TableTags.SUBJECTS.getTag() + "\n");
+        fileWriter.write(TableTags.SUBJECTS.getTag() + "\n");
         for (int i = 0; i < group.getAcademicSubjects().size(); i++) {
-            writer.write(group.getAcademicSubjects().get(i));
-            writer.write("\n");
+            fileWriter.write(group.getAcademicSubjects().get(i));
+            fileWriter.write("\n");
         }
-        writer.write(TableTags.END_OF_SUBJECTS.getTag() + "\n");
+        fileWriter.write(TableTags.END_OF_SUBJECTS.getTag() + "\n");
     }
 
-    private static void writeStudents(final FileWriter writer,
+    private static void writeStudents(final FileWriter fileWriter,
                                       final Group group) throws IOException {
         for (int i = 0; i < group.getStudents().size(); i++) {
-            writer.write(TableTags.STUDENT.getTag() + "\n");
-            writer.write(group.getStudents().get(i).getName() + "\n");
-            writeMarks(writer, group.getStudents().get(i));
-            writer.write(TableTags.END_OF_STUDENT.getTag() + "\n");
+            fileWriter.write(TableTags.STUDENT.getTag() + "\n");
+            fileWriter.write(group.getStudents().get(i).getName() + "\n");
+            writeMarks(fileWriter, group.getStudents().get(i));
+            fileWriter.write(TableTags.END_OF_STUDENT.getTag() + "\n");
         }
     }
 
-    private static void writeMarks(final FileWriter writer,
+    private static void writeMarks(final FileWriter fileWriter,
                                    final Student student) throws IOException {
         for (int i = 0; i < student.getMarks().size(); i++) {
-            writer.write(TableTags.MARK.getTag() + "\n");
-            writer.write(student.getMarks().get(i).getAcademicSubject() + "\n");
-            writer.write(DateParser.formatDate(student.getMarks().get(i).getDate()) + "\n");
-            writer.write(Integer.toString(student.getMarks().get(i).getValue()) + "\n");
+            fileWriter.write(TableTags.MARK.getTag() + "\n");
+            fileWriter.write(student.getMarks().get(i).getAcademicSubject() + "\n");
+            fileWriter.write(DateParser.formatDate(student.getMarks().get(i).getDate()) + "\n");
+            fileWriter.write(Integer.toString(student.getMarks().get(i).getValue()) + "\n");
         }
     }
 }
