@@ -3,7 +3,6 @@
 @Subjects
 History
 Maths
-
 @Student
 Petrov
 @EndOfStudent
@@ -13,7 +12,6 @@ Sidorov
 Maths
 10-05-2015
 4
-
 @EndOfGroup
 @Group
 2
