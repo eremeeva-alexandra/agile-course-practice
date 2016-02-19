@@ -141,7 +141,17 @@ public class ChangingDialog extends JDialog {
         dialogViewModel.setDialogDate(dateField.getText());
         dialogViewModel.setDialogStudent(studentComboBox.getSelectedItem());
         dialogViewModel.setDialogSubject(subjectComboBox.getSelectedItem());
-        dialogViewModel.setDialogInputTextBox(inputTextField.getText());
+        try {
+            dialogViewModel.setDialogInputTextBox(inputTextField.getText());
+        } catch (InputIsTagException exception) {
+            JOptionPane.showMessageDialog(null, exception.getMessage());
+            dialogViewModel.logErrorWhileChangingTable(exception.getMessage());
+            inputTextField.setText("");
+            dialogViewModel.setDialogInputTextBox(inputTextField.getText());
+            List<String> log = dialogViewModel.getLog();
+            String[] items = log.toArray(new String[log.size()]);
+            logList.setListData(items);
+        }
     }
 
     private void backBind() {

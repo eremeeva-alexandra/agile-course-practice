@@ -1,4 +1,4 @@
-package ru.unn.agile.MarksAccounting.infrastructure;
+package ru.unn.agile.MarksAccounting.viewmodel;
 
 public enum TableTags {
     GROUP("@Group"),

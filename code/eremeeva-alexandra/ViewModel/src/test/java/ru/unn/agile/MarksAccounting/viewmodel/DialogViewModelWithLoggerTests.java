@@ -25,6 +25,11 @@ public class DialogViewModelWithLoggerTests {
         dialogViewModel = null;
     }
 
+    @Test(expected = InputIsTagException.class)
+    public void canNotSetTagAsInput() {
+        dialogViewModel.setDialogInputTextBox("@Group");
+    }
+
     @Test
     public void canPutSeveralLogMessages() {
         dialogViewModel.setDialogInputTextBox("5");

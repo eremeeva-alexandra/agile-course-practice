@@ -1,7 +1,6 @@
 package ru.unn.agile.MarksAccounting.viewmodel;
 
 import ru.unn.agile.MarksAccounting.model.*;
-
 import javax.swing.*;
 import java.text.ParseException;
 import java.util.List;
@@ -181,6 +180,11 @@ public abstract class DialogViewModel {
     }
 
     public void setDialogInputTextBox(final String dialogInputTextBox) {
+        for (TableTags tag: TableTags.values()) {
+            if (dialogInputTextBox.equals(tag.getTag())) {
+                throw new InputIsTagException("Input can't be a tag!");
+            }
+        }
         if (!this.dialogInputTextBox.equals(dialogInputTextBox)) {
             this.dialogInputTextBox = dialogInputTextBox;
             logInputValueChanging();

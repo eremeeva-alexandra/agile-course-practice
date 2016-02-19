@@ -1,6 +1,8 @@
 package ru.unn.agile.MarksAccounting.infrastructure;
 
 import ru.unn.agile.MarksAccounting.model.*;
+import ru.unn.agile.MarksAccounting.viewmodel.TableTags;
+
 import java.io.FileReader;
 import java.util.GregorianCalendar;
 
@@ -36,7 +38,7 @@ public final class TableReader {
         if (TableTags.SUBJECTS.getTag().equals(LineReader.readLine(reader))) {
             String line = LineReader.readLine(reader);
             while (!line.equals(TableTags.END_OF_SUBJECTS.getTag())) {
-                if (line.equals(TableTags.MARK.getTag())  || line.equals(TableTags.STUDENT.getTag())
+                if (line.equals(TableTags.MARK.getTag()) || line.equals(TableTags.STUDENT.getTag())
                         || line.equals(TableTags.GROUP.getTag())
                         || line.equals(TableTags.SUBJECTS.getTag())) {
                     throw  new RuntimeException("Bad format");

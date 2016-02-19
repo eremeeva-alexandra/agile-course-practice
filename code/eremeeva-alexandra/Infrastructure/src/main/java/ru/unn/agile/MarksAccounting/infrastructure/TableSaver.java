@@ -4,6 +4,8 @@ import ru.unn.agile.MarksAccounting.model.DateParser;
 import ru.unn.agile.MarksAccounting.model.Group;
 import ru.unn.agile.MarksAccounting.model.Student;
 import ru.unn.agile.MarksAccounting.model.TableOfMarks;
+import ru.unn.agile.MarksAccounting.viewmodel.TableTags;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
