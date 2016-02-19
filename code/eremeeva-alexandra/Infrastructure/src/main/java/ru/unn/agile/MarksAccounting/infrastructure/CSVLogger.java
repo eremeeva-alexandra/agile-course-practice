@@ -31,9 +31,9 @@ public class CSVLogger implements ILogger {
         fileWriter = logWriter;
     }
 
-    public void log(final String s) {
+    public void log(final String message) {
         try {
-            fileWriter.write(getTimeNow() + ";" + s + "\n");
+            fileWriter.write(getTimeNow() + ";" + message + "\n");
             fileWriter.flush();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -60,7 +60,7 @@ public class CSVLogger implements ILogger {
     private ArrayList<String> getLogForDialog(final FileReader fileReader) throws IOException {
         String line;
         ArrayList<String> fullLog = new ArrayList<String>();
-        ArrayList<String> resLog = new ArrayList<String>();
+        ArrayList<String> resultLog = new ArrayList<String>();
         while (fileReader.ready()) {
             line = LineReader.readLine(fileReader);
             fullLog.add(line);
@@ -72,9 +72,9 @@ public class CSVLogger implements ILogger {
             }
         }
         for (int j = i; j < fullLog.size(); j++) {
-            resLog.add(fullLog.get(j));
+            resultLog.add(fullLog.get(j));
         }
-        return resLog;
+        return resultLog;
     }
 
     private ArrayList<String> getLogForMainWindow(final FileReader fileReader) throws IOException {
