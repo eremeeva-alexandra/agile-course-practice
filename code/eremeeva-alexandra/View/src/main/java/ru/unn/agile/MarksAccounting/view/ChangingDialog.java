@@ -28,13 +28,13 @@ public class ChangingDialog extends JDialog {
 
     public ChangingDialog(final TableOfMarks tableOfMarks,
                           final DialogType typeOfDialog, final ILogger logger) {
-        dialogTitle.setText(typeOfDialog.getTypeDescription());
+        this.dialogTitle.setText(typeOfDialog.getTypeDescription());
         initDialogViewModel(tableOfMarks, typeOfDialog, logger);
-        setContentPane(contentPane);
+        setContentPane(this.contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
-        groupComboBox.setModel(dialogViewModel.getDialogGroupsComboBoxModel());
-        studentComboBox.setModel(dialogViewModel.getDialogStudentsComboBoxModel());
+        getRootPane().setDefaultButton(this.buttonOK);
+        this.groupComboBox.setModel(dialogViewModel.getDialogGroupsComboBoxModel());
+        this.studentComboBox.setModel(dialogViewModel.getDialogStudentsComboBoxModel());
         backBind();
 
         groupComboBox.addItemListener(new ItemListener() {

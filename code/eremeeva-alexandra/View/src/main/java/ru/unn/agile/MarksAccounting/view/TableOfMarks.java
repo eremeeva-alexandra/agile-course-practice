@@ -41,7 +41,7 @@ public final class TableOfMarks {
     private TableOfMarks(final MainFormViewModel mainFormViewModel) {
         this.mainFormViewModel = mainFormViewModel;
         currentFile = null;
-        changingComboBox.setModel(mainFormViewModel.getChangingComboBoxModel());
+        this.changingComboBox.setModel(mainFormViewModel.getChangingComboBoxModel());
         TableOfMarks.this.mainFormViewModel.logActionChanging("add group");
         backBind();
 
